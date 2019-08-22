@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 
 // Local files
 import DropdownMenu from './DropdownMenu';
-import { getAllTeams, getSprintsByTeamId, getStoriesByTeam, getAllStoryStatuses } from '../services/BackendService';
+import { getAllTeams, getSprintsByTeamId, getStoriesByTeam, getAllStoryStatuses } from '../services/StoriesApiService';
 
 
 export default class StoryForm extends React.Component{
@@ -34,10 +34,6 @@ export default class StoryForm extends React.Component{
         getAllStoryStatuses(statuses => this.setState({ storyStatuses: statuses }));
     }
 
-    componentWillReceiveProps() {
-        // console.log(this.props.sprints);
-    }
-
     updateStoryField = (field, value) => {
 
         if (this.props.story[field] !== value) {
@@ -49,6 +45,7 @@ export default class StoryForm extends React.Component{
 
     updateTeamId(newTeamId) {
         if (this.props.story.teamId !== newTeamId) {
+
             // Get all sprints and stories under the selected team from the backend
             getSprintsByTeamId(newTeamId, sprints => this.setState({ sprints }));
             getStoriesByTeam(newTeamId, stories => this.setState({ parentStories: stories }));
@@ -56,6 +53,9 @@ export default class StoryForm extends React.Component{
             // Update story with new teamId
             const story = this.props.story;
             story.teamId = newTeamId;
+
+            // Reset parent story ID to undefined, since different teams have different potential parent stories
+            story.parentId = undefined;
             this.props.updateStory({ story });
 
             // Enable sprint and parent story dropdowns
@@ -69,14 +69,13 @@ export default class StoryForm extends React.Component{
     render(){
         const storyPointEntities = this.state.storyPointPossibilities.map(points => {
             return {
-                id: points,
-                name: points
+                id: points
             };
         });
 
         return (
             <div>
-                <h2>{this.props.story.storyName ? this.props.story.storyName : 'Create a New Story'}</h2>
+                <h2>{this.props.story.id ? this.props.story.id : 'Create a New Story'}</h2>
                 <br/>
                 
                 <Form>
@@ -108,14 +107,14 @@ export default class StoryForm extends React.Component{
                     <Row>
                         <Col>
                             {/* Teams dropdown menu */}
-                            <DropdownMenu entities={this.state.teams} placeholder='Select a Team' label='Team'
+                            <DropdownMenu entities={this.state.teams} displayAttribute='name' placeholder='Select a Team' label='Team'
                                 onChange={this.updateTeamId}
                                 selectedEntityId={this.props.story.teamId} />
                             <br />
                         </Col>
                         <Col>
                             {/* Story Points dropdown menu */}
-                            <DropdownMenu entities={storyPointEntities} placeholder='Select Story Points' label='Story points'
+                            <DropdownMenu entities={storyPointEntities} displayAttribute='id' placeholder='Select Story Points' label='Story points'
                                 onChange={event => this.updateStoryField('storyPoints', event)}
                                 selectedEntityId={this.props.story.storyPoints} />
                             <br />
@@ -125,7 +124,7 @@ export default class StoryForm extends React.Component{
                     <Row>
                         <Col>
                             {/* Sprints dropdown menu */}
-                            <DropdownMenu entities={this.state.sprints} placeholder='Select a Sprint' label='Sprint'
+                            <DropdownMenu entities={this.state.sprints} displayAttribute='name' placeholder='Select a Sprint' label='Sprint'
                                 onChange={event => this.updateStoryField('sprintId', event)}
                                 disabled={this.state.isSprintDropdownDisabled}
                                 selectedEntityId={this.props.story.sprintId} />
@@ -133,7 +132,7 @@ export default class StoryForm extends React.Component{
                         </Col>
                         <Col>
                             {/* Story Status dropdown menu */}
-                            <DropdownMenu entities={this.state.storyStatuses} placeholder='Select Status' label='Status'
+                            <DropdownMenu entities={this.state.storyStatuses} displayAttribute='name' placeholder='Select Status' label='Status'
                                 onChange={event => this.updateStoryField('statusId', event)}
                                 selectedEntityId={this.props.story.statusId ? this.props.story.statusId : 1} />
                             <br />
@@ -142,8 +141,9 @@ export default class StoryForm extends React.Component{
 
                     
                     {/* Parent Stories dropdown menu */}
-                    <DropdownMenu entities={this.state.parentStories} placeholder='Select a Parent Story' label='Parent story'
+                    <DropdownMenu entities={this.state.parentStories} displayAttribute='id' placeholder='Select a Parent Story' label='Parent story'
                         onChange={event => this.updateStoryField('parentId', event)}
+                        selectedEntityId={this.props.story.parentId}
                         disabled={this.state.isParentStoryDropdownDisabled} />
                     <br />
 

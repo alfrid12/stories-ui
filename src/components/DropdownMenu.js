@@ -18,10 +18,11 @@ export default class DropdownMenu extends React.Component {
 
     selectDropdownItem(entityId){
         // entityId comes back as a string from the HTML
-        const entityIdAsNumber = parseInt(entityId);
+        // However, some entities have IDs that should be integers, and others (li)
+        entityId = parseInt(entityId) ? parseInt(entityId) : entityId
 
         // Call onChange event handler (passed in from parent)
-        this.props.onChange(entityIdAsNumber);
+        this.props.onChange(entityId);
     }
 
     convertEntitiesToDropdownItems(entities) {
@@ -30,7 +31,7 @@ export default class DropdownMenu extends React.Component {
                 key={entity.id}
                 eventKey={entity.id}
                 onSelect={this.selectDropdownItem}>
-                {entity.name ? entity.name : entity.title}
+                {entity[this.props.displayAttribute]}
             </Dropdown.Item>;
         });
     }
@@ -40,7 +41,6 @@ export default class DropdownMenu extends React.Component {
     }
 
     render(){
-
         const dropdownItems = this.convertEntitiesToDropdownItems(this.props.entities);
 
         // Determine value that will be displayed in dropdown box
@@ -49,15 +49,8 @@ export default class DropdownMenu extends React.Component {
         if(this.props.selectedEntityId) {
             const selectedEntity = this.getEntityById(this.props.selectedEntityId);
 
-            if(selectedEntity){
-                // If the currently selected entity has a name attribute, use that as the dropdown title
-                if (selectedEntity.name) dropdownTitle = selectedEntity.name;
-
-                // If the currently selected entity has a title attribute, use that as the dropdown title
-                else if (selectedEntity.title) dropdownTitle = selectedEntity.title;
-
-                // If no suitable dropdown title was found, default to the placeholder prop
-                else dropdownTitle = this.props.placeholder;
+            if(selectedEntity) {
+                dropdownTitle = selectedEntity[this.props.displayAttribute];
             }
 
             // If no suitable dropdown title was found, default to the placeholder prop

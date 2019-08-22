@@ -8,7 +8,7 @@ import DateTimePicker from 'react-datetime-picker';
 // Local files
 import Page from './Page';
 import DropdownMenu from '../components/DropdownMenu';
-import { getAllTeams, submitNewSprint } from '../services/BackendService';
+import { getAllTeams, submitNewSprint } from '../services/StoriesApiService';
 
 export default class NewSprintPage extends React.Component {
 

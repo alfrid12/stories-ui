@@ -3,7 +3,7 @@ import Table from 'react-bootstrap/Table';
 
 // Local files
 import Page from './Page';
-import { getAllStories, getAllStoryStatuses} from '../services/BackendService';
+import { getAllStories, getAllStoryStatuses} from '../services/StoriesApiService';
 
 export default class StoryFinderPage extends React.Component {
     constructor(props) {
@@ -20,14 +20,14 @@ export default class StoryFinderPage extends React.Component {
     }
 
     redirectToStorySummaryPage(story){
-        const redirectUrl = '/stories/' + story.teamAbbreviation + '-' + story.storyNumber;
+        const redirectUrl = '/stories/' + story.id;
         this.props.history.push(redirectUrl);
     }
 
     render() {
         const tableRows = this.state.stories.map(story => {
             return <tr key={story.id} onClick={() => this.redirectToStorySummaryPage(story)}>
-                <td>{story.teamAbbreviation}-{story.storyNumber}</td>
+                <td>{story.id}</td>
                 <td>{story.title}</td>
                 <td>{story.statusName}</td>
                 <td>{story.storyPoints}</td>

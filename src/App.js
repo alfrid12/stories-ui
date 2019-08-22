@@ -15,7 +15,7 @@ class App extends Component {
           <Route exact path='/' component={HomePage} />
           <Route exact path='/stories/find' component={StoryFinderPage} />
           <Route exact path='/stories/new' component={NewStoryPage} />
-          <Route path='/stories/:storyName' component={StorySummaryPage} />
+          <Route path='/stories/:storyId' component={StorySummaryPage} />
           <Route path='/sprints/new' component={NewSprintPage} />
         </Switch>
       </div>

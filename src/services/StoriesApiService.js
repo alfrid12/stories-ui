@@ -18,16 +18,12 @@ export const getSprintsByTeamId = (teamId, callback) => {
     performGet(backendBaseUrl + '/sprints?teamId=' + teamId, callback);
 }
 
-export const getSprintsByTeamAbbr = (teamAbbr, callback) => {
-    performGet(backendBaseUrl + '/sprints?teamAbbr=' + teamAbbr, callback);
-}
-
 export const getStoriesByTeam = (teamId, callback) => {
     performGet(backendBaseUrl + '/stories?teamId=' + teamId, callback);
 }
 
-export const getStoryByStoryName = (storyName, callback) => {
-    performGet(backendBaseUrl + '/stories/' + storyName, callback);
+export const getStoryById = (storyId, callback) => {
+    performGet(backendBaseUrl + '/stories/' + storyId, callback);
 }
 
 export const submitNewStory = (story, callback) => {

@@ -2,7 +2,7 @@ import React from 'react';
 
 // Local imports
 import Page from './Page';
-import { submitNewStory } from '../services/BackendService';
+import { submitNewStory } from '../services/StoriesApiService';
 import StoryForm from '../components/StoryForm';
 
 export default class NewStory extends React.Component {

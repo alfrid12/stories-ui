@@ -2,7 +2,7 @@ import React from 'react';
 
 // Local imports
 import Page from './Page';
-import { saveStory, getStoryByStoryName, getSprintsByTeamAbbr } from '../services/BackendService';
+import { saveStory, getStoryById } from '../services/StoriesApiService';
 import StoryForm from '../components/StoryForm';
 
 export default class StorySummaryPage extends React.Component {
@@ -19,30 +19,18 @@ export default class StorySummaryPage extends React.Component {
             sprints: []
         }
 
-        this.getTeamAbbrFromStoryName = this.getTeamAbbrFromStoryName.bind(this);
         this.updateStory = this.updateStory.bind(this);
         this.saveStory = this.saveStory.bind(this);
     }
 
     componentDidMount(){
         // Pull story name from URL
-        const storyName = this.props.match.params.storyName;
+        const storyId = this.props.match.params.storyId;
 
         // Request corresponding story info from backend, save in state
-        getStoryByStoryName(storyName, story => {
-            story.storyName = storyName;
+        getStoryById(storyId, story => {
             this.setState({ story });
         });
-
-        // getSprintsByTeamAbbr()
-        const teamAbbr = this.getTeamAbbrFromStoryName(storyName);
-        getSprintsByTeamAbbr(teamAbbr, sprints => this.setState({ sprints }))
-    }
-
-    getTeamAbbrFromStoryName(storyName){
-        const indexOfHyphen = storyName.indexOf('-');
-        const teamAbbr = storyName.substring(0, indexOfHyphen);
-        return teamAbbr;
     }
 
     updateStory(story) {
