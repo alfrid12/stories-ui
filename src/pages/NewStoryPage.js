@@ -15,7 +15,7 @@ export default class NewStory extends React.Component {
 
                 // Setting the below three fields serves no purpose other than preventing a console error
                 title: '',
-                description: '',
+                notes: '',
                 acceptanceCriteria: '',
 
                 // This defaults a new story to have a statusId of 1 (Ready for Refinement)
@@ -34,7 +34,6 @@ export default class NewStory extends React.Component {
     }
 
     submitStory() {
-        console.log(this.state.story);
         const story = this.state.story;
         story.createdBy = 'n0350204';
         submitNewStory(story, response => console.log(response));

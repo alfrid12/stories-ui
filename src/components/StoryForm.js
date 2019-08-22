@@ -86,21 +86,21 @@ export default class StoryForm extends React.Component{
                             value={this.props.story.title} />
                     </Form.Group>
 
-                    <Form.Group controlId="storyDescription">
-                        <Form.Label>Story Description</Form.Label>
-                        <Form.Control as="textarea" rows="3"
-                            placeholder="Enter description"
-                            onChange={event => this.updateStoryField('description', event.target.value)}
-                            value={this.props.story.description}>
-                        </Form.Control>
-                    </Form.Group>
-
                     <Form.Group controlId="storyAcceptanceCriteria">
                         <Form.Label>Acceptance Criteria</Form.Label>
                         <Form.Control as="textarea" rows="3"
                             placeholder="Enter acceptance criteria"
                             onChange={event => this.updateStoryField('acceptanceCriteria', event.target.value)}
                             value={this.props.story.acceptanceCriteria}>
+                        </Form.Control>
+                    </Form.Group>
+
+                    <Form.Group controlId="storyNotes">
+                        <Form.Label>Notes</Form.Label>
+                        <Form.Control as="textarea" rows="3"
+                            placeholder="Enter any notes here"
+                            onChange={event => this.updateStoryField('notes', event.target.value)}
+                            value={this.props.story.notes}>
                         </Form.Control>
                     </Form.Group>
 

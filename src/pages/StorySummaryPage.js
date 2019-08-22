@@ -13,7 +13,7 @@ export default class StorySummaryPage extends React.Component {
         this.state = {
             story: {
                 title: '',
-                description: '',
+                notes: '',
                 acceptanceCriteria: ''
             },
             sprints: []
