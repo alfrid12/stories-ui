@@ -21,7 +21,7 @@ export default class StoryForm extends React.Component{
             selectedSprintId: undefined,
             isSprintDropdownDisabled: true,
             isParentStoryDropdownDisabled: true,
-            storyPointPossibilities: [0, 0.5, 1, 2, 3, 5, 8, 13, 20, 40]
+            storyPointPossibilities: [0, 1, 2, 3, 5, 8, 13, 20, 40]
         }
 
         this.updateStoryField = this.updateStoryField.bind(this);
