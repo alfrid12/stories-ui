@@ -3,7 +3,8 @@ import Table from 'react-bootstrap/Table';
 
 // Local files
 import Page from './Page';
-import { getAllStories, getAllStoryStatuses} from '../services/StoriesApiService';
+
+import StoriesApiService from '../services/StoriesApiService';
 
 export default class StoryFinderPage extends React.Component {
     constructor(props) {
@@ -15,8 +16,8 @@ export default class StoryFinderPage extends React.Component {
     }
 
     componentDidMount() {
-        getAllStories(stories => this.setState({ stories }));
-        getAllStoryStatuses(storyStatuses => this.setState({ storyStatuses }));
+        StoriesApiService.getAllStories(stories => this.setState({ stories }));
+        StoriesApiService.getAllStoryStatuses(storyStatuses => this.setState({ storyStatuses }));
     }
 
     redirectToStorySummaryPage(story){

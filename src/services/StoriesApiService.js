@@ -1,59 +1,61 @@
-const backendBaseUrl = 'http://localhost:5000';
+const apiBaseUrl = 'http://localhost:5000';
 
-export const getAllStories = callback => {
-    fetch(backendBaseUrl + '/stories').then(response => {
-        response.json().then(callback);
-    }).catch(handleError);
+const storiesApiService = {
+    getAllStories: callback => {
+        fetch(apiBaseUrl + '/stories').then(response => {
+            response.json().then(callback);
+        }).catch(handleError);
+    },
+
+    getAllStoryStatuses: callback => {
+        performGetRequest(apiBaseUrl + '/statuses', callback);
+    },
+
+    getStoriesByTeam: (teamId, callback) => {
+        performGetRequest(apiBaseUrl + '/stories?teamId=' + teamId, callback);
+    },
+
+    getStoryById: (storyId, callback) => {
+        performGetRequest(apiBaseUrl + '/stories/' + storyId, callback);
+    },
+
+    createStory: (story, callback) => {
+        performPostRequest(apiBaseUrl + '/stories', story, callback);
+    },
+
+    updateStory: (story, callback) => {
+        performPostRequest(apiBaseUrl + '/stories/' + story.id, story, callback);
+    },
+
+    getAllTeams: callback => {
+        performGetRequest(apiBaseUrl + '/teams', callback);
+    },
+
+    getAllSprints: callback => {
+        performGetRequest(apiBaseUrl + '/sprints', callback);
+    },
+
+    getSprintsByTeamId: (teamId, callback) => {
+        performGetRequest(apiBaseUrl + '/sprints?teamId=' + teamId, callback);
+    },
+
+    createSprint: (sprint, callback) => {
+        performPostRequest(apiBaseUrl + '/sprints', sprint, callback);
+    }
 }
+  
 
-export const getAllTeams = callback => {
-    performGet(backendBaseUrl + '/teams', callback);
-}
+// //////////////////////
+// // HELPER FUNCTIONS //
+// //////////////////////
 
-export const getAllSprints = callback => {
-    performGet(backendBaseUrl + '/sprints', callback);
-}
-
-export const getSprintsByTeamId = (teamId, callback) => {
-    performGet(backendBaseUrl + '/sprints?teamId=' + teamId, callback);
-}
-
-export const getStoriesByTeam = (teamId, callback) => {
-    performGet(backendBaseUrl + '/stories?teamId=' + teamId, callback);
-}
-
-export const getStoryById = (storyId, callback) => {
-    performGet(backendBaseUrl + '/stories/' + storyId, callback);
-}
-
-export const submitNewStory = (story, callback) => {
-    performPost(backendBaseUrl + '/stories/new', story, callback);
-}
-
-export const submitNewSprint = (sprint, callback) => {
-    performPost(backendBaseUrl + '/sprints/new', sprint, callback);
-}
-
-export const saveStory = (story, callback) => {
-    performPost(backendBaseUrl + '/stories/' + story.id, story, callback);
-}
-
-export const getAllStoryStatuses = callback => {
-    performGet(backendBaseUrl + '/statuses', callback);
-}
-
-
-//////////////////////
-// HELPER FUNCTIONS //
-//////////////////////
-
-const performGet = (url, callback) => {
+const performGetRequest = (url, callback) => {
     fetch(url).then(response => {
         response.json().then(callback);
     }).catch(handleError);
 }
 
-const performPost = (url, body, callback) => {
+const performPostRequest = (url, body, callback) => {
     fetch(url, {
         method: 'POST',
         headers: {
@@ -64,3 +66,5 @@ const performPost = (url, body, callback) => {
 }
 
 const handleError = error => console.log(error);
+
+export default storiesApiService;

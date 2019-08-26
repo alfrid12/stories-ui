@@ -26,7 +26,7 @@ export default class NavBar extends React.Component {
                         <LinkContainer to="#" onClick={this.props.toggleSidebar} active={this.props.showSidebar}>
                             <Nav.Link>Sidebar</Nav.Link>
                         </LinkContainer>
-                        <LinkContainer to="/stories/find">
+                        <LinkContainer to="/stories">
                             <Nav.Link>Find</Nav.Link>
                         </LinkContainer>
                         <LinkContainer to="/stories/new">

@@ -8,7 +8,8 @@ import DateTimePicker from 'react-datetime-picker';
 // Local files
 import Page from './Page';
 import DropdownMenu from '../components/DropdownMenu';
-import { getAllTeams, submitNewSprint } from '../services/StoriesApiService';
+
+import StoriesApiService from '../services/StoriesApiService';
 
 export default class NewSprintPage extends React.Component {
 
@@ -33,7 +34,7 @@ export default class NewSprintPage extends React.Component {
     }
 
     componentDidMount() {
-        getAllTeams(teams => this.setState({ teams }));
+        StoriesApiService.getAllTeams(teams => this.setState({ teams }));
     }
 
     updateSprintField(field, value){
@@ -50,7 +51,7 @@ export default class NewSprintPage extends React.Component {
         const newSprint = this.state.newSprint;
         newSprint.startTimestamp = this.convertDateToUnixTimestamp(newSprint.startTimestamp);
         newSprint.endTimestamp = this.convertDateToUnixTimestamp(newSprint.endTimestamp);
-        submitNewSprint(this.state.newSprint, response => console.log(response));
+        StoriesApiService.createSprint(this.state.newSprint, response => console.log(response));
     }
 
     render() {

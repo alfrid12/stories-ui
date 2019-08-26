@@ -6,8 +6,7 @@ import Col from 'react-bootstrap/Col';
 
 // Local files
 import DropdownMenu from './DropdownMenu';
-import { getAllTeams, getSprintsByTeamId, getStoriesByTeam, getAllStoryStatuses } from '../services/StoriesApiService';
-
+import StoriesApiService from '../services/StoriesApiService';
 
 export default class StoryForm extends React.Component{
 
@@ -30,8 +29,8 @@ export default class StoryForm extends React.Component{
     }
 
     componentDidMount() {
-        getAllTeams(teams => this.setState({ teams }));
-        getAllStoryStatuses(statuses => this.setState({ storyStatuses: statuses }));
+        StoriesApiService.getAllTeams(teams => this.setState({ teams }));
+        StoriesApiService.getAllStoryStatuses(statuses => this.setState({ storyStatuses: statuses }));
     }
 
     updateStoryField = (field, value) => {
@@ -47,8 +46,8 @@ export default class StoryForm extends React.Component{
         if (this.props.story.teamId !== newTeamId) {
 
             // Get all sprints and stories under the selected team from the backend
-            getSprintsByTeamId(newTeamId, sprints => this.setState({ sprints }));
-            getStoriesByTeam(newTeamId, stories => this.setState({ parentStories: stories }));
+            StoriesApiService.getSprintsByTeamId(newTeamId, sprints => this.setState({ sprints }));
+            StoriesApiService.getStoriesByTeam(newTeamId, stories => this.setState({ parentStories: stories }));
 
             // Update story with new teamId
             const story = this.props.story;
@@ -139,14 +138,12 @@ export default class StoryForm extends React.Component{
                         </Col>
                     </Row>
 
-                    
                     {/* Parent Stories dropdown menu */}
                     <DropdownMenu entities={this.state.parentStories} displayAttribute='id' placeholder='Select a Parent Story' label='Parent story'
                         onChange={event => this.updateStoryField('parentId', event)}
                         selectedEntityId={this.props.story.parentId}
                         disabled={this.state.isParentStoryDropdownDisabled} />
                     <br />
-
 
                     <Button variant="primary" onClick={this.props.buttonOnClick}>{this.props.buttonText}</Button>
                 </Form>

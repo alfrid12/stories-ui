@@ -3,70 +3,60 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 
+const DropdownMenu = (props) => {
 
-export default class DropdownMenu extends React.Component {
-    constructor(props) {
-        super(props);
+    // This function is called whenever a user clicks on a dropdown option inside of the dropdown menu
+    const selectDropdownOption = entityId => {
 
-        this.state = {
-            selectedEntity: {}
-        };
-
-        this.selectDropdownItem = this.selectDropdownItem.bind(this);
-        this.getEntityById = this.getEntityById.bind(this);
-    }
-
-    selectDropdownItem(entityId){
-        // entityId comes back as a string from the HTML
-        // However, some entities have IDs that should be integers, and others (li)
+        /** entityId comes back as a string from the HTML
+         * However, some entities have IDs that should be integers, and others (like stories), have string IDs
+         * Therefore, we need to check if an ID can be parsed into an integer, and if so, parse it */
         entityId = parseInt(entityId) ? parseInt(entityId) : entityId
 
         // Call onChange event handler (passed in from parent)
-        this.props.onChange(entityId);
+        props.onChange(entityId);
     }
 
-    convertEntitiesToDropdownItems(entities) {
+    /** This function takes an array of entities, and converts each entity to a dropdown option
+     * @param {*} entities an array of JS objects, each with an id attribute and a displayAttribute attribute (name, value, etc.)
+     * 
+     * Example: entities = [{id: 1, name: 'Team One!'}, {id: 1, name: 'Team Two!'}]   //displayAttribute would be 'name'
+     */
+    const createDropdownOptions = entities => {
         return entities.map(entity => {
             return <Dropdown.Item
                 key={entity.id}
                 eventKey={entity.id}
-                onSelect={this.selectDropdownItem}>
-                {entity[this.props.displayAttribute]}
+                onSelect={selectDropdownOption}>
+                {entity[props.displayAttribute]}
             </Dropdown.Item>;
         });
     }
 
-    getEntityById(entityId) {
-        return this.props.entities.filter(entity => entity.id === entityId)[0];
+    const getEntityById = entityId => {
+        return props.entities.filter(entity => entity.id === entityId)[0];
     }
 
-    render(){
-        const dropdownItems = this.convertEntitiesToDropdownItems(this.props.entities);
+    // Default dropdown title to placeholder prop (Ex.- 'Please select an option')
+    let dropdownTitle = props.placeholder;
 
-        // Determine value that will be displayed in dropdown box
-        let dropdownTitle;
+    // If an entity is currently selected, display that entity in the dropdown menu as the currently selected option
+    if (props.selectedEntityId) {
+        const selectedEntity = getEntityById(props.selectedEntityId);
 
-        if(this.props.selectedEntityId) {
-            const selectedEntity = this.getEntityById(this.props.selectedEntityId);
-
-            if(selectedEntity) {
-                dropdownTitle = selectedEntity[this.props.displayAttribute];
-            }
-
-            // If no suitable dropdown title was found, default to the placeholder prop
-            else dropdownTitle = this.props.placeholder;
-        }  
-
-        // If no suitable dropdown title was found, default to the placeholder prop
-        else dropdownTitle = this.props.placeholder;
-
-        return (
-            <div>
-                <Form.Label>{this.props.label}</Form.Label>
-                <DropdownButton variant="secondary" title={dropdownTitle} disabled={this.props.disabled}>
-                    {dropdownItems}
-                </DropdownButton>
-            </div>
-        );
+        if (selectedEntity && selectedEntity[props.displayAttribute]) {
+            dropdownTitle = selectedEntity[props.displayAttribute];
+        }
     }
+
+    return (
+        <div>
+            <Form.Label>{props.label}</Form.Label>
+            <DropdownButton variant="secondary" title={dropdownTitle} disabled={props.disabled}>
+                {createDropdownOptions(props.entities)}
+            </DropdownButton>
+        </div>
+    );
 }
+
+export default DropdownMenu;

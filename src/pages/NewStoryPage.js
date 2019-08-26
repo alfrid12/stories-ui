@@ -2,7 +2,7 @@ import React from 'react';
 
 // Local imports
 import Page from './Page';
-import { submitNewStory } from '../services/StoriesApiService';
+import StoriesApiService from '../services/StoriesApiService';
 import StoryForm from '../components/StoryForm';
 
 export default class NewStory extends React.Component {
@@ -36,7 +36,7 @@ export default class NewStory extends React.Component {
     submitStory() {
         const story = this.state.story;
         story.createdBy = 'n0350204';
-        submitNewStory(story, response => console.log(response));
+        StoriesApiService.createStory(story, response => console.log(response));
     }
 
     render() {
