@@ -1,5 +1,6 @@
 const apiBaseUrl = 'http://localhost:5000';
 
+// Public methods go here
 const storiesApiService = {
     getAllStories: callback => {
         fetch(apiBaseUrl + '/stories').then(response => {
@@ -11,8 +12,16 @@ const storiesApiService = {
         performGetRequest(apiBaseUrl + '/statuses', callback);
     },
 
-    getStoriesByTeam: (teamId, callback) => {
+    getStoriesByTeamId: (teamId, callback) => {
         performGetRequest(apiBaseUrl + '/stories?teamId=' + teamId, callback);
+    },
+
+    getStoriesByCreatorId: (creatorId, callback) => {
+        performGetRequest(apiBaseUrl + '/stories?creatorId=' + creatorId, callback);
+    },
+
+    getStoriesByAssigneeId: (assigneeId, callback) => {
+        performGetRequest(apiBaseUrl + '/stories?assigneeId=' + assigneeId, callback);
     },
 
     getStoryById: (storyId, callback) => {
@@ -41,6 +50,10 @@ const storiesApiService = {
 
     createSprint: (sprint, callback) => {
         performPostRequest(apiBaseUrl + '/sprints', sprint, callback);
+    },
+
+    getFavoritesByUserId: (userId, callback) => {
+        performGetRequest(apiBaseUrl + `/favorites/${userId}`, callback);
     }
 }
   

@@ -1,13 +1,9 @@
 import React from 'react';
 
-import Page from './Page';
-
 export default class HomePage extends React.Component {
-    render(){
+    render() {
         return (
-                <Page history={this.props.history}>
-                    <div>So far so good</div>
-                </Page>
+            <div>So far so good</div>
         );
     }
 }

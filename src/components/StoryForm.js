@@ -47,7 +47,7 @@ export default class StoryForm extends React.Component{
 
             // Get all sprints and stories under the selected team from the backend
             StoriesApiService.getSprintsByTeamId(newTeamId, sprints => this.setState({ sprints }));
-            StoriesApiService.getStoriesByTeam(newTeamId, stories => this.setState({ parentStories: stories }));
+            StoriesApiService.getStoriesByTeamId(newTeamId, stories => this.setState({ parentStories: stories }));
 
             // Update story with new teamId
             const story = this.props.story;
@@ -74,7 +74,10 @@ export default class StoryForm extends React.Component{
 
         return (
             <div>
-                <h2>{this.props.story.id ? this.props.story.id : 'Create a New Story'}</h2>
+                {/* I'm doing this because putting an empty <h2> as the false condition of this ternary operator 
+                    causes everything to shift a little bit on page load. Visible when repeatedly clicking the sidebar 
+                    link for a story */}
+                {this.props.headerText ? <h2>{this.props.headerText}</h2> : <h2 style={{ color: '#e8edf0'}}>_</h2>}
                 <br/>
                 
                 <Form>

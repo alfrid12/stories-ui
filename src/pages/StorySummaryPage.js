@@ -1,14 +1,12 @@
 import React from 'react';
 
 // Local imports
-import Page from './Page';
 import StoryForm from '../components/StoryForm';
-
 import StoriesApiService from '../services/StoriesApiService';
 
 export default class StorySummaryPage extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -24,7 +22,7 @@ export default class StorySummaryPage extends React.Component {
         this.saveStory = this.saveStory.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         // Pull story name from URL
         const storyId = this.props.match.params.storyId;
 
@@ -46,10 +44,8 @@ export default class StorySummaryPage extends React.Component {
 
     render() {
         return (
-            <Page history={this.props.history}>
-                <StoryForm story={this.state.story} sprints={this.state.sprints} updateStory={this.updateStoryInState}
-                    buttonText='Save' buttonOnClick={this.saveStory} />
-            </Page>
+            <StoryForm headerText={this.state.story.id} story={this.state.story} sprints={this.state.sprints} updateStory={this.updateStoryInState}
+                buttonText='Save' buttonOnClick={this.saveStory} />
         );
-    }     
+    }
 }

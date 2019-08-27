@@ -31,3 +31,32 @@
     transform: rotate(360deg);
   }
 }
+
+.inline-container {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.main-container {
+    background-color: #e8edf0;
+    position: relative;
+    min-height: 100vh;
+}
+
+.sidebar-container {
+    width: 15%;
+}
+
+.central-content-container {
+    width: 80%;
+    padding: 3% 3% 0% 3%;
+}
+
+.toast-container {
+    position: absolute;
+    z-index: 1;
+    width: 20%;
+    /* margin: 0% 0% 0% 79%; */
+    bottom: 2%;
+    right: 1%;
+}

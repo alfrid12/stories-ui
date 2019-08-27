@@ -2,8 +2,6 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 
 // Local files
-import Page from './Page';
-
 import StoriesApiService from '../services/StoriesApiService';
 
 export default class StoryFinderPage extends React.Component {
@@ -36,19 +34,17 @@ export default class StoryFinderPage extends React.Component {
         });
 
         return (
-            <Page history={this.props.history}>
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Title</th>
-                            <th>Status</th>
-                            <th>Story Points</th>
-                        </tr>
-                    </thead>
-                    <tbody>{tableRows}</tbody>
-                </Table>
-            </Page>
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Story Points</th>
+                    </tr>
+                </thead>
+                <tbody>{tableRows}</tbody>
+            </Table>
         );
     }
 }

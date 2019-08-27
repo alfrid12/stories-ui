@@ -6,14 +6,13 @@ import Button from 'react-bootstrap/Button';
 import DateTimePicker from 'react-datetime-picker';
 
 // Local files
-import Page from './Page';
 import DropdownMenu from '../components/DropdownMenu';
 
 import StoriesApiService from '../services/StoriesApiService';
 
 export default class NewSprintPage extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         let twoWeeksAheadDate = new Date();
@@ -37,17 +36,17 @@ export default class NewSprintPage extends React.Component {
         StoriesApiService.getAllTeams(teams => this.setState({ teams }));
     }
 
-    updateSprintField(field, value){
+    updateSprintField(field, value) {
         const newSprint = this.state.newSprint;
         newSprint[field] = value;
         this.setState({ newSprint });
     }
 
-    convertDateToUnixTimestamp(date){
+    convertDateToUnixTimestamp(date) {
         return (date.getTime() / 1000).toFixed(0);
     }
 
-    submitSprint(){
+    submitSprint() {
         const newSprint = this.state.newSprint;
         newSprint.startTimestamp = this.convertDateToUnixTimestamp(newSprint.startTimestamp);
         newSprint.endTimestamp = this.convertDateToUnixTimestamp(newSprint.endTimestamp);
@@ -55,50 +54,7 @@ export default class NewSprintPage extends React.Component {
     }
 
     render() {
-        return (
-            <Page history={this.props.history}>
-                <Form>
-                    <h2>Create a new sprint</h2>
-                    <br/>
-
-                    <Form.Group controlId="sprintName">
-                        <Form.Label>Sprint Name</Form.Label>
-                        <Form.Control type="text" placeholder="Enter sprint name"
-                            onChange={event => this.updateSprintField('name', event.target.value)}
-                            value={this.state.newSprint.name} />
-                    </Form.Group>
-
-                    {/* Teams dropdown menu */}
-                    <DropdownMenu entities={this.state.teams} placeholder='Select a Team' label='Team'
-                        onChange={event => this.updateSprintField('teamId', event)}
-                        selectedEntityId={this.state.newSprint.teamId} />
-                    <br />
-
-                    {/* Sprint start date date-time picker */}
-                    <h4>Sprint start date</h4>
-                    <DateTimePicker value={this.state.newSprint.startTimestamp}
-                        onChange={newDate => this.updateSprintField('startTimestamp', newDate)} />
-
-                    {/* Sprint end date date-time picker */}
-                    <h4>Sprint end date</h4>
-                    <DateTimePicker value={this.state.newSprint.endTimestamp}
-                        onChange={newDate => this.updateSprintField('endTimestamp', newDate)} />
-
-
-
-                    <p>INPUT FIELD FOR LENGTH OF SPRINT</p>
-                    {/** User can use either end date datepicker or length of sprint field
-                                - last one updated updates end of sprint */}
-                    <br />
-
-                    <h2>Recurring sprint form</h2>
-
-
-                    <Button variant="primary" onClick={this.submitSprint}>Submit</Button>
-                </Form>
-
-
-                {/*
+        /*
                 One enclosing form (?)
                 Radio button for one vs multiple sprints
 
@@ -125,8 +81,47 @@ export default class NewSprintPage extends React.Component {
                         - End time
 
                 
-                */}
-            </Page>
+                */
+        return (
+            <Form>
+                <h2>Create a new sprint</h2>
+                <br />
+
+                <Form.Group controlId="sprintName">
+                    <Form.Label>Sprint Name</Form.Label>
+                    <Form.Control type="text" placeholder="Enter sprint name"
+                        onChange={event => this.updateSprintField('name', event.target.value)}
+                        value={this.state.newSprint.name} />
+                </Form.Group>
+
+                {/* Teams dropdown menu */}
+                <DropdownMenu entities={this.state.teams} placeholder='Select a Team' label='Team'
+                    onChange={event => this.updateSprintField('teamId', event)}
+                    selectedEntityId={this.state.newSprint.teamId} />
+                <br />
+
+                {/* Sprint start date date-time picker */}
+                <h4>Sprint start date</h4>
+                <DateTimePicker value={this.state.newSprint.startTimestamp}
+                    onChange={newDate => this.updateSprintField('startTimestamp', newDate)} />
+
+                {/* Sprint end date date-time picker */}
+                <h4>Sprint end date</h4>
+                <DateTimePicker value={this.state.newSprint.endTimestamp}
+                    onChange={newDate => this.updateSprintField('endTimestamp', newDate)} />
+
+
+
+                <p>INPUT FIELD FOR LENGTH OF SPRINT</p>
+                {/** User can use either end date datepicker or length of sprint field
+                                - last one updated updates end of sprint */}
+                <br />
+
+                <h2>Recurring sprint form</h2>
+
+
+                <Button variant="primary" onClick={this.submitSprint}>Submit</Button>
+            </Form>
         );
     }
 }

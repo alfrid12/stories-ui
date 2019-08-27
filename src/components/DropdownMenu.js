@@ -3,7 +3,9 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 
-const DropdownMenu = (props) => {
+import '../css/Dropdown.css';
+
+const DropdownMenu = props => {
 
     // This function is called whenever a user clicks on a dropdown option inside of the dropdown menu
     const selectDropdownOption = entityId => {

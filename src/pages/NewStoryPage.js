@@ -1,7 +1,6 @@
 import React from 'react';
 
 // Local imports
-import Page from './Page';
 import StoriesApiService from '../services/StoriesApiService';
 import StoryForm from '../components/StoryForm';
 
@@ -41,10 +40,8 @@ export default class NewStory extends React.Component {
 
     render() {
         return (
-            <Page history={this.props.history}>
-                <StoryForm story={this.state.story} updateStory={this.updateStory}
-                        buttonText='Submit' buttonOnClick={this.submitStory} />
-            </Page>
+            <StoryForm headerText='Create a New Story' story={this.state.story} updateStory={this.updateStory}
+                    buttonText='Submit' buttonOnClick={this.submitStory} />
         );
     }
 }
