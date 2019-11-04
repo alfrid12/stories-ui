@@ -40,8 +40,12 @@ export default class NewStory extends React.Component {
 
     render() {
         return (
-            <StoryForm headerText='Create a New Story' story={this.state.story} updateStory={this.updateStory}
+            <div>
+                <h2>Create a New Story</h2>
+                <StoryForm story={this.state.story} updateStory={this.updateStory}
                     buttonText='Submit' buttonOnClick={this.submitStory} />
+            </div>
+            
         );
     }
 }

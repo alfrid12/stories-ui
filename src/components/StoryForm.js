@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 // Local files
 import DropdownMenu from './DropdownMenu';
 import StoriesApiService from '../services/StoriesApiService';
+import '../css/StoryForm.css';
 
 export default class StoryForm extends React.Component{
 
@@ -73,24 +74,18 @@ export default class StoryForm extends React.Component{
         });
 
         return (
-            <div>
-                {/* I'm doing this because putting an empty <h2> as the false condition of this ternary operator 
-                    causes everything to shift a little bit on page load. Visible when repeatedly clicking the sidebar 
-                    link for a story */}
-                {this.props.headerText ? <h2>{this.props.headerText}</h2> : <h2 style={{ color: '#e8edf0'}}>_</h2>}
-                <br/>
-                
+            <div>                
                 <Form>
                     <Form.Group controlId="storyTitle">
                         <Form.Label>Story Title</Form.Label>
-                        <Form.Control type="text" placeholder="Enter title"
+                        <Form.Control type="text" className='input-text-box' placeholder="Enter title"
                             onChange={event => this.updateStoryField('title', event.target.value)}
                             value={this.props.story.title} />
                     </Form.Group>
 
                     <Form.Group controlId="storyAcceptanceCriteria">
                         <Form.Label>Acceptance Criteria</Form.Label>
-                        <Form.Control as="textarea" rows="3"
+                        <Form.Control as="textarea" rows="3" className='input-text-box'
                             placeholder="Enter acceptance criteria"
                             onChange={event => this.updateStoryField('acceptanceCriteria', event.target.value)}
                             value={this.props.story.acceptanceCriteria}>
@@ -99,7 +94,7 @@ export default class StoryForm extends React.Component{
 
                     <Form.Group controlId="storyNotes">
                         <Form.Label>Notes</Form.Label>
-                        <Form.Control as="textarea" rows="3"
+                        <Form.Control as="textarea" rows="3" className='input-text-box'
                             placeholder="Enter any notes here"
                             onChange={event => this.updateStoryField('notes', event.target.value)}
                             value={this.props.story.notes}>
@@ -141,14 +136,19 @@ export default class StoryForm extends React.Component{
                         </Col>
                     </Row>
 
-                    {/* Parent Stories dropdown menu */}
-                    <DropdownMenu entities={this.state.parentStories} displayAttribute='id' placeholder='Select a Parent Story' label='Parent story'
-                        onChange={event => this.updateStoryField('parentId', event)}
-                        selectedEntityId={this.props.story.parentId}
-                        disabled={this.state.isParentStoryDropdownDisabled} />
-                    <br />
-
-                    <Button variant="primary" onClick={this.props.buttonOnClick}>{this.props.buttonText}</Button>
+                    <Row>
+                        <Col>
+                            {/* Parent Stories dropdown menu */}
+                            <DropdownMenu entities={this.state.parentStories} displayAttribute='id' placeholder='Select a Parent Story' label='Parent story'
+                                onChange={event => this.updateStoryField('parentId', event)}
+                                selectedEntityId={this.props.story.parentId}
+                                disabled={this.state.isParentStoryDropdownDisabled} />
+                        </Col>
+                        <Col></Col>
+                    </Row>
+                    
+                    <br /><br />
+                    <Button variant="primary" style={{width: '20%'}} onClick={this.props.buttonOnClick}>{this.props.buttonText}</Button>
                 </Form>
             </div>
         );

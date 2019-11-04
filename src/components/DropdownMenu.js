@@ -1,5 +1,4 @@
 import React from 'react';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 
@@ -52,12 +51,13 @@ const DropdownMenu = props => {
     }
 
     return (
-        <div>
-            <Form.Label>{props.label}</Form.Label>
-            <DropdownButton variant="secondary" title={dropdownTitle} disabled={props.disabled}>
+        <Dropdown>
+            <Form.Label>{props.label}</Form.Label><br/>
+            <Dropdown.Toggle style={{ minWidth: '80%' }} variant="secondary">{dropdownTitle}</Dropdown.Toggle>
+            <Dropdown.Menu variant="secondary" disabled={props.disabled}>
                 {createDropdownOptions(props.entities)}
-            </DropdownButton>
-        </div>
+            </Dropdown.Menu>
+        </Dropdown>
     );
 }
 

@@ -1,7 +1,7 @@
 const apiBaseUrl = 'http://localhost:5000';
 
 // Public methods go here
-const storiesApiService = {
+const StoriesApiService = {
     getAllStories: callback => {
         fetch(apiBaseUrl + '/stories').then(response => {
             response.json().then(callback);
@@ -25,7 +25,11 @@ const storiesApiService = {
     },
 
     getStoryById: (storyId, callback) => {
-        performGetRequest(apiBaseUrl + '/stories/' + storyId, callback);
+        performGetRequest(`${apiBaseUrl}/stories/${storyId}`, callback);
+    },
+
+    getStoryByIdForUser: (storyId, userId, callback) => {
+        performGetRequest(`${apiBaseUrl}/stories/${storyId}?userId=${userId}`, callback);
     },
 
     createStory: (story, callback) => {
@@ -54,6 +58,14 @@ const storiesApiService = {
 
     getFavoritesByUserId: (userId, callback) => {
         performGetRequest(apiBaseUrl + `/favorites/${userId}`, callback);
+    },
+
+    addFavorite: (storyId, userId, callback) => {
+        performPostRequest(`${apiBaseUrl}/favorites`, {storyId, userId}, callback);
+    },
+
+    removeFavorite: (storyId, userId, callback) => {
+        performDeleteRequest(`${apiBaseUrl}/favorites?storyId=${storyId}&userId=${userId}`, callback);
     }
 }
   
@@ -78,6 +90,14 @@ const performPostRequest = (url, body, callback) => {
     }).then(callback).catch(handleError);
 }
 
+const performDeleteRequest = (url, callback) => {
+    fetch(url, {
+        method: 'DELETE'
+    }).then(response => {
+        response.json().then(callback);
+    }).catch(handleError);
+}
+
 const handleError = error => console.log(error);
 
-export default storiesApiService;
+export default StoriesApiService;

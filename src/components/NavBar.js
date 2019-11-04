@@ -15,7 +15,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 const NavBar = props => {
     return (
         <Navbar style={{ backgroundColor: '#8cb4b9', border: '1px solid gray' }} expand="lg">
-            <LinkContainer to="/">
+            <LinkContainer to="/stories">
                 <Navbar.Brand>Stories</Navbar.Brand>
             </LinkContainer>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -24,9 +24,9 @@ const NavBar = props => {
                     <LinkContainer to="#" onClick={props.toggleSidebar} active={props.showSidebar}>
                         <Nav.Link>Sidebar</Nav.Link>
                     </LinkContainer>
-                    <LinkContainer to="/stories">
+                    {/* <LinkContainer to="/stories">
                         <Nav.Link>Find</Nav.Link>
-                    </LinkContainer>
+                    </LinkContainer> */}
                     <LinkContainer to="/stories/new">
                         <Nav.Link>New Story</Nav.Link>
                     </LinkContainer>
