@@ -1,4 +1,4 @@
-
+import StoriesApiService from './StoriesApiService';
 
 const convertStoryIdToUrl = storyId => `/stories/${storyId}`;
 
@@ -10,6 +10,47 @@ const createSidebarLinkFromStoryId = storyId => {
 }
 
 const SidebarService = {
+
+    /**
+     * This function fetches sidebar data from the Stories REST API. It hits three different 
+     * REST endpoints simultaneously, using Promise.all() to wait until all three complete
+     * before proceeding. In order to use Promise.all(), the data fetching functions need to  
+     * be converted into promises. This happens in the top three get______Promise functions
+     **/ 
+    fetchSidebarData: (userId, callback) => {
+
+        const getStoriesByAssigneeIdPromise = () => {
+            return new Promise((resolve, reject) => {
+                StoriesApiService.getStoriesByAssigneeId(userId, stories => resolve(stories));
+            });
+        }
+
+        const getStoriesByCreatorIdPromise = () => {
+            return new Promise((resolve, reject) => {
+                StoriesApiService.getStoriesByCreatorId(userId, stories => resolve(stories));
+            });
+        }
+
+        const getFavoritesByUserIdPromise = () => {
+            return new Promise((resolve, reject) => {
+                StoriesApiService.getFavoritesByUserId(userId, favorites => resolve(favorites));
+            });
+        }
+
+        const listOfPromises = [
+            getStoriesByCreatorIdPromise(),
+            getStoriesByAssigneeIdPromise(),
+            getFavoritesByUserIdPromise()
+        ];
+
+        Promise.all(listOfPromises).then(results => {
+            const [createdByMeStories, assignedToMeStories, favorites] = results;
+        
+            callback(createdByMeStories, assignedToMeStories, favorites);
+        });
+    },
+
+
     processSidebarData: (createdByMeStories, assignedToMeStories, favorites) => {
 
         /** Some stories might have been created by the same person they're assigned to.

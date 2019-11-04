@@ -5,8 +5,6 @@ import StorySummaryPage from './pages/StorySummaryPage';
 import NewStoryPage from './pages/NewStoryPage';
 import StoryFinderPage from './pages/StoryFinderPage';
 import NewSprintPage from './pages/NewSprintPage';
-import StoriesApiService from './services/StoriesApiService';
-
 import Sidebar from './components/Sidebar';
 import NavBar from './components/NavBar';
 
@@ -21,7 +19,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: 'n0350204',
+      userId: 'n0350204',
       showSidebar: true,
       showToast: true,
       sidebarData: {
@@ -38,41 +36,19 @@ class App extends Component {
     this.setState({ showSidebar: !this.state.showSidebar });
   }
 
-  getStoriesByAssigneeIdPromise() {
-    return new Promise((resolve, reject) => {
-      StoriesApiService.getStoriesByAssigneeId(this.state.user, stories => resolve(stories));
-    });
-  }
-
-  getStoriesByCreatorIdPromise() {
-    return new Promise((resolve, reject) => {
-      StoriesApiService.getStoriesByCreatorId(this.state.user, stories => resolve(stories));
-    });
-  }
-
-  getFavoritesByUserIdPromise() {
-    return new Promise((resolve, reject) => {
-      StoriesApiService.getFavoritesByUserId(this.state.user, favorites => resolve(favorites));
-    });
-  }
-
   componentDidMount() {
     this.fetchAndDisplaySidebarData();
   }
 
   fetchAndDisplaySidebarData() {
 
-    const listOfPromises = [
-      this.getStoriesByCreatorIdPromise(),
-      this.getStoriesByAssigneeIdPromise(),
-      this.getFavoritesByUserIdPromise()
-    ];
+    // Fetch sidebar data from Stories API
+    SidebarService.fetchSidebarData(this.state.userId, (createdByMeStories, assignedToMeStories, favorites) => {
 
-    Promise.all(listOfPromises).then(results => {
-      const [createdByMeStories, assignedToMeStories, favorites] = results;
-
+      // Process retrieved data into format suitable for Sidebar component
       const processedSidebarData = SidebarService.processSidebarData(createdByMeStories, assignedToMeStories, favorites);
 
+      // Save processed data in component state for rendering
       this.setState({ sidebarData: processedSidebarData });
     });
   }
